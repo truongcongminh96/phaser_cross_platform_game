@@ -6,8 +6,36 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
+
+        this.init();
+        this.initEvents();
     }
 
+    init() {
+        this.gravity = 500;
+        this.playerSpeed = 200;
+        this.cursors = this.scene.input.keyboard.createCursorKeys();
+
+        this.body.setGravityY(this.gravity);
+        this.setCollideWorldBounds(true);
+    }
+
+    initEvents() {
+        this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
+    }
+
+    update() {
+        const {left, right} = this.cursors;
+
+        if (left.isDown) {
+            this.setVelocityX(-this.playerSpeed);
+        } else if (right.isDown) {
+            this.setVelocityX(this.playerSpeed);
+        } else {
+            this.setVelocityX(0);
+        }
+    }
 }
+
 
 export default Player;
