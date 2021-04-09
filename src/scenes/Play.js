@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../entities/Player'
+import Birdman from '../entities/BirdMan'
 
 class Play extends Phaser.Scene {
 
@@ -13,9 +14,16 @@ class Play extends Phaser.Scene {
         const layers = this.createLayers(map);
         const playerZones = this.getPlayerZones(layers.playerZones);
         const player = this.createPlayer(playerZones.start);
+        const enemy = this.createEnemy();
 
 
         this.createPlayerColliders(player, {
+            colliders: {
+                platformsColliders: layers.platformsColliders
+            }
+        });
+
+        this.createEnemyColliders(enemy, {
             colliders: {
                 platformsColliders: layers.platformsColliders
             }
@@ -46,6 +54,16 @@ class Play extends Phaser.Scene {
     createPlayer(start) {
         return new Player(this, start.x, start.y);
     }
+
+    createEnemy() {
+        return new Birdman(this, 200, 200);
+    }
+
+    createEnemyColliders(enemy, {colliders}) {
+        enemy
+            .addCollider(colliders.platformsColliders);
+    }
+
 
     createPlayerColliders(player, {colliders}) {
         player
