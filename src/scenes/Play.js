@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../entities/Player'
-import Birdman from '../entities/BirdMan'
+import {getEnemyTypes} from '../types/index'
 
 class Play extends Phaser.Scene {
 
@@ -58,8 +58,9 @@ class Play extends Phaser.Scene {
     }
 
     createEnemies(spawnLayer) {
+        const enemyTypes = getEnemyTypes();
         return spawnLayer.objects.map(spawnPoint => {
-            return new Birdman(this, spawnPoint.x, spawnPoint.y);
+            return new enemyTypes[spawnPoint.type](this, spawnPoint.x, spawnPoint.y);
         });
     }
 
